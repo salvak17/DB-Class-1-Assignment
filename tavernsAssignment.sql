@@ -57,31 +57,42 @@ CREATE TABLE BasementRats(
 
 
 
+DROP TABLE IF EXISTS SupplyUnits;
+CREATE TABLE SupplyUnits(
+	supplyUnitID INT IDENTITY(500,1) PRIMARY KEY,
+	unitName VARCHAR(50),
+);
+
+
+
 DROP TABLE IF EXISTS Supplies;
 CREATE TABLE Supplies(
 	supplyID INT IDENTITY(500,1) PRIMARY KEY,
 	supplyName VARCHAR(100),
 	unit VARCHAR(25),
-	cost INT
+);
+
+
+
+DROP TABLE IF EXISTS Inventory;
+CREATE TABLE Inventory(
+	supplyID INT FOREIGN KEY REFERENCES Supplies(supplyID),
+	tavernID INT FOREIGN KEY REFERENCES Taverns(tavernID),
+	datePurchased DATE,
+	quantity INT
 );
 
 
 
 DROP TABLE IF EXISTS TavernInventory;
-CREATE TABLE TavernInventory(
+DROP TABLE IF EXISTS InventoryReceived;
+CREATE TABLE InventoryReceived(
+	inventoryReceivedID INT IDENTITY(1100,1) PRIMARY KEY,
 	tavernID INT FOREIGN KEY REFERENCES Taverns(tavernID),
 	supplyID INT FOREIGN KEY REFERENCES Supplies(supplyID),
 	cost INT,
 	quantity INT,
 	dateRecieved DATE
-);
-
-
-
-DROP TABLE IF EXISTS ServicesOffered;
-CREATE TABLE ServicesOffered(
-	serviceID INT IDENTITY(600,1) PRIMARY KEY,
-	serviceName VARCHAR(75)
 );
 
 
@@ -94,11 +105,27 @@ CREATE TABLE ServiceStatus(
 
 
 
-DROP TABLE IF EXISTS TavernServices;
-CREATE TABLE TavernServices(
-	tavernID INT FOREIGN KEY REFERENCES Taverns(tavernID),
-	serviceID INT FOREIGN KEY REFERENCES ServicesOffered(serviceID),
+DROP TABLE IF EXISTS Services;
+DROP TABLE IF EXISTS ServicesOffered;
+CREATE TABLE ServicesOffered(
+	serviceID INT IDENTITY(600,1) PRIMARY KEY,
+	serviceName VARCHAR(75),
+	price INT
 	statusID INT FOREIGN KEY REFERENCES ServiceStatus(statusID)
+);
+
+
+
+DROP TABLE IF EXISTS TavernServices;
+DROP TABLE IF EXISTS ServiceSales;
+CREATE TABLE ServiceSales(
+	servicesSalesID INT IDENTITY(1200,1) PRIMARY KEY,
+	serviceID INT FOREIGN KEY REFERENCES ServicesOffered(serviceID),
+	datePurchased DATE,
+	quantity INT,
+	userID INT FOREIGN KEY REFERENCES Users(userID),
+	price INT,
+	tavernID INT FOREIGN KEY REFERENCES Taverns(tavernID)
 );
 
 
@@ -172,13 +199,13 @@ VALUES
 
 
 
-INSERT INTO Supplies(supplyName, unit, cost)
+INSERT INTO Supplies(supplyName, unit)
 VALUES
-	('toilet paper', 'by case of 6', 3),
-	('chicken whole', 'ounces', 5),
-	('russet potatoes whole', 'pounds', 1),
-	('carrots whole', 'pounds', 1),
-	('borboun', 'ounces', 2)
+	('toilet paper', 'by case of 6'),
+	('chicken whole', 'ounces'),
+	('russet potatoes whole', 'pounds',
+	('carrots whole', 'pounds'),
+	('borboun', 'ounces')
 ;
 
 
