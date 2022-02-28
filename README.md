@@ -22,3 +22,4 @@ SQL DB Class 2 Tavern Assignment
 4. Showed that there are constraints by making insertions or queries that will fail due to foreign key constraints.<br>
 *3 and 4 will be commented out so script can still run as originally wrote*<br>
 <br>
+*FYI: jpg diagram was not yet updated for SQL DB Class 2 Tavern Assignment as it was drawn by hand but will be made digital*
