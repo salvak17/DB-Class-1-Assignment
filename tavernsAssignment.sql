@@ -23,8 +23,8 @@ CREATE TABLE Locations(
 
 DROP TABLE IF EXISTS Taverns;
 CREATE TABLE Taverns(
-	tavID INT IDENTITY(1,1) PRIMARY KEY,
-	tavName VARCHAR(150),
+	tavernID INT IDENTITY(1,1) PRIMARY KEY,
+	tavernName VARCHAR(150),
 	floorCount INT,
 	ownerID INT FOREIGN KEY REFERENCES Users(userID),
 	locationID INT FOREIGN KEY REFERENCES Locations(locationID)
@@ -52,7 +52,7 @@ DROP TABLE IF EXISTS BasementRats;
 CREATE TABLE BasementRats(
 	ratID INT IDENTITY(400,1) PRIMARY KEY,
 	ratName VARCHAR(75),
-	tavID INT FOREIGN KEY REFERENCES Taverns(tavID)
+	tavernID INT FOREIGN KEY REFERENCES Taverns(tavernID)
 );
 
 
@@ -69,7 +69,7 @@ CREATE TABLE Supplies(
 
 DROP TABLE IF EXISTS TavernInventory;
 CREATE TABLE TavernInventory(
-	tavID INT FOREIGN KEY REFERENCES Taverns(tavID),
+	tavernID INT FOREIGN KEY REFERENCES Taverns(tavernID),
 	supplyID INT FOREIGN KEY REFERENCES Supplies(supplyID),
 	cost INT,
 	quantity INT,
@@ -96,7 +96,7 @@ CREATE TABLE ServiceStatus(
 
 DROP TABLE IF EXISTS TavernServices;
 CREATE TABLE TavernServices(
-	tavID INT FOREIGN KEY REFERENCES Taverns(tavID),
+	tavernID INT FOREIGN KEY REFERENCES Taverns(tavernID),
 	serviceID INT FOREIGN KEY REFERENCES ServicesOffered(serviceID),
 	statusID INT FOREIGN KEY REFERENCES ServiceStatus(statusID)
 );
@@ -107,11 +107,11 @@ CREATE TABLE TavernServices(
 -- Seeds about 5-10 rows w/repeat data --
 INSERT INTO Users (userName, birthday)
 VALUES
-	('Maria Calavera', 1820-10-31),
-	('Yang Xiao Long', 1882-05-25),
-	('Salem', 1873-08-06),
-	('Neon Katt', 1881-12-13),
-	('Sun Wukong', 1881-02-23)
+	('Maria Calavera', '1820-10-31'),
+	('Yang Xiao Long', '1882-05-25'),
+	('Salem', '1873-08-06'),
+	('Neon Katt', '1881-12-13'),
+	('Sun Wukong', '1881-02-23')
 ;
 
 
@@ -127,7 +127,7 @@ VALUES
 
 
 
-INSERT INTO Taverns (tavName, floorCount, ownerID, locationID)
+INSERT INTO Taverns (tavernName, floorCount, ownerID, locationID)
 VALUES 
 	('Beacon Pub', 65, 101, 300),
 	('Haven Valley', 75, 100, 301),
@@ -160,7 +160,7 @@ VALUES
 
 
 
-INSERT INTO BasementRats(ratName, tavID)
+INSERT INTO BasementRats(ratName, tavernID)
 VALUES
 	('Jaq', 1),
 	('Gus', 1),
@@ -183,7 +183,7 @@ VALUES
 
 
 
-INSERT INTO TavernInventory(tavID, supplyID, cost, quantity, dateRecieved)
+INSERT INTO TavernInventory(tavernID, supplyID, cost, quantity, dateRecieved)
 VALUES
 	(1, 501, 225, 75, 1900-10-21),
 	(1, 502, 50, 50, 1900-10-25),
@@ -214,7 +214,7 @@ VALUES
 
 
 
-INSERT INTO TavernServices(tavID, serviceID, statusID)
+INSERT INTO TavernServices(tavernID, serviceID, statusID)
 VALUES
 	(1, 603, 701),
 	(1, 604, 700),
