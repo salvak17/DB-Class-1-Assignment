@@ -1,9 +1,10 @@
--- Creates database for assignment and uses database for assignment --
+-- CLASS 1 ASSIGNMENT--
+	-- Creates database for assignment and uses database for assignment --
 CREATE DATABASE class1TavernAssignment;
 USE class1TavernAssignment;
 
 
--- Creates all tables for tavern assignment --
+	-- Creates all tables for tavern assignment --
 DROP TABLE IF EXISTS Users;
 CREATE TABLE Users(
 	userID INT IDENTITY(100,1) PRIMARY KEY,
@@ -130,8 +131,8 @@ CREATE TABLE ServiceSales(
 
 
 
--- Seeds table w/info --
--- Seeds about 5-10 rows w/repeat data --
+	-- Seeds tables w/info --
+	-- Seeds about 5-10 rows w/repeat data --
 INSERT INTO Users (userName, birthday)
 VALUES
 	('Maria Calavera', '1820-10-31'),
@@ -251,3 +252,110 @@ VALUES
 	(3, 601, 701),
 	(3, 602, 701)
 ;
+
+
+
+-- CLASS 2 ASSIGNMENT --
+	-- Complete the User story --
+	-- Track guests, guests should have classes and levels, and stop tracking rats
+DROP TABLE IF EXISTS BasementRats; -- stops tracking rats --
+
+
+
+DROP TABLE IF EXISTS GuestStats;
+CREATE TABLE GuestStats(
+	guestStatID INT IDENTITY(900, 1) PRIMARY KEY,
+	statName VARCHAR(50)
+);
+
+
+
+DROP TABLE IF EXISTS GuestClasses;
+CREATE TABLE GuestClasses(
+	guestClassID INT IDENTITY(1000,1) PRIMARY KEY,
+	guestClassName VARCHAR(50),
+);
+
+
+
+DROP TABLE IF EXISTS Guests;
+CREATE TABLE Guests(
+	guestID INT IDENTITY (800,1) PRIMARY KEY,
+	guestName VARCHAR(150),
+	guestNotes VARCHAR(MAX),
+	guestBirthday DATE,
+	guestCakeDay DATE,
+	guestStatID INT FOREIGN KEY REFERENCES GuestStats(guestStatID)
+);
+
+
+
+DROP TABLE IF EXISTS GuestLevels;
+CREATE TABLE GuestLevels(
+	guestLevelID INT IDENTITY(1300,1) PRIMARY KEY,
+	guestID INT FOREIGN KEY REFERENCES Guests(guestID),
+	guestClassID INT FOREIGN KEY REFERENCES GuestClasses(guestClassID),
+	guestLevel INT
+);
+
+
+
+	-- Link Supplies table and have them be used in sales --
+DROP TABLE IF EXISTS SupplySales;
+CREATE TABLE SupplySales(
+	supplySalesID INT IDENTITY(1400,1) PRIMARY KEY,
+	supplyID INT FOREIGN KEY REFERENCES Supplies(supplyID),
+	guestID INT FOREIGN KEY REFERENCES Guests(guestID),
+	quantity INT,
+	cost INT,
+	dateBought DATE
+);
+
+
+
+	-- Use Alter Table command to modify Taverns and Users Table and add Foreign and Primary keys --
+		-- will be commented so script runs as designed, but can turn in for assignment --
+	--DROP TABLE IF EXISTS Users;
+	--CREATE TABLE Users(
+	--	userID INT IDENTITY(100,1),
+	--	userName VARCHAR(150),
+	--	birthday DATE
+	--);
+
+
+	--DROP TABLE IF EXISTS Taverns;
+	--CREATE TABLE Taverns(
+	--	tavernID INT IDENTITY(1,1),
+	--	tavernName VARCHAR(150),
+	--	floorCount INT,
+	--	ownerID INT, -- FOREIGN KEY REFERENCES Users(userID), --
+	--	locationID INT -- FOREIGN KEY REFERENCES Locations(locationID) --
+	--);
+
+
+	--ALTER TABLE Users
+	--ADD PRIMARY KEY (userID);
+
+
+	--ALTER TABLE Taverns
+	--ADD PRIMARY KEY (tavernID);
+
+
+	--ALTER TABLE Taverns
+	--ADD FOREIGN KEY (ownerID) REFERENCES Users(userID);
+
+
+	--ALTER TABLE Taverns
+	--ADD FOREIGN KEY (locationID) REFERENCES Locations(locationID);
+
+
+
+	-- Show that there are constraints by making insertions or queries that will fail due to foreign key constraints --
+		-- will be commented so script can still run --
+	--INSERT INTO GuestLevels (guestID)
+	--VALUES
+	--	('1300'),
+	--	(one thousand three hundred)
+	--;
+	-- first value inserted will fail because guestID is a foreign key to an integer and has been entered as string --
+	-- second value inserted will fail because guestID is a foreign key to an integer and "one thousand three hundred" is not an integer --
