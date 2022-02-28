@@ -1,5 +1,5 @@
 # DB-Class-Taverns-Assignment
-SQL DB Class 1 Tavern Assignment<br>
+SQL DB Class 1 Tavern Assignment<br><br>
 Create Script for database where a system can keep track of taverns.<br>
 • Taverns need a name, floor count, owner (user) info, and location info.<br>
 • Have users of the system and their roles kept track of, with description of roles.<br>
@@ -7,7 +7,7 @@ Create Script for database where a system can keep track of taverns.<br>
 • Have the name of services offered as well as the status of the service (for example "active" or "inactive", and can add or change status later).<br>
 Should be seeded with around 5 to 10 rows of data each, and add repeated fields for normalization.<br>
 *picture of diagram as reference was also added to visualize my thought process*<br>
-<br>
+<br><br><br>
 SQL DB Class 2 Tavern Assignment
 1. Completed the User story. There should be a way to track guests':<br>
 • Names<br>
