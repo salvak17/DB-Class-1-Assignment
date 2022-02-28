@@ -8,7 +8,7 @@ Create Script for database where a system can keep track of taverns.<br>
 Should be seeded with around 5 to 10 rows of data each, and add repeated fields for normalization.<br>
 *picture of diagram as reference was also added to visualize my thought process*<br>
 <br>
-SQL DB Class 2 Tavern Assignment<br>
+SQL DB Class 2 Tavern Assignment
 1. Completed the User story. There should be a way to track guests':<br>
 • Names<br>
 • Notes about them<br>
