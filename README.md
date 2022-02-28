@@ -1,4 +1,4 @@
-# DB-Class-1-Assignment
+# DB-Class-Taverns-Assignment
 SQL DB Class 1 Tavern Assignment<br>
 Create Script for database where a system can keep track of taverns.<br>
 • Taverns need a name, floor count, owner (user) info, and location info.<br>
