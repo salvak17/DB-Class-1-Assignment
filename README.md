@@ -21,5 +21,15 @@ SQL DB Class 2 Tavern Assignment
 3. Instead of adding Foreign Keys and Primary keys to a table on creation, used an Alter Table command to modify the table to add them to the Taverns and Users tables.<br>
 4. Showed that there are constraints by making insertions or queries that will fail due to foreign key constraints.<br>
 *3 and 4 will be commented out so script can still run as originally wrote*<br>
+<br><br><br>
+SQL DB Class 3 Tavern Assignment
+1. Added tables to track rooms, which should have a status and an associated tavern; also to track room stays, which will contain a sale, guest, room, the date it was stayed in and the rate.
+2. Wrote a querie that returns guests w/a birthday before 2000.
+3. Wrote a query to return rooms that cost more than 100 gold a night.
+4. Wrote a query that returns UNIQUE guest names.
+5. Wrote a query that returns all guests ordered by name (ascending).
+6. Wrote a query that returns the top 10 highest price sales.
+7. Wrote a query to return all the values stored in all Lookup Tables.
+8. Wrote a query that returns Guest Classes with Guest Levels, and Generates a new column with a label for their level grouping.
 <br>
 *FYI: jpg diagram was not yet updated for SQL DB Class 2 Tavern Assignment as it was drawn by hand but will be made digital*
