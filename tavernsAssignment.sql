@@ -359,3 +359,92 @@ CREATE TABLE SupplySales(
 	--;
 	-- first value inserted will fail because guestID is a foreign key to an integer and has been entered as string --
 	-- second value inserted will fail because guestID is a foreign key to an integer and "one thousand three hundred" is not an integer --
+
+
+
+-- CLASS 3 ASSIGNMENT --
+	-- Track Rooms; which should have a status and associated tavern. --
+	-- Way to track Room Stays, which will contain a sale, guest, room, the date it was stayed in, and the rate --
+DROP TABLE IF EXISTS RoomStatus;
+CREATE TABLE RoomStatus(
+	roomStatusID INT IDENTITY(1,1) PRIMARY KEY,
+	roomStatusName VARCHAR (25)
+);
+
+
+
+DROP TABLE IF EXISTS Rooms;
+CREATE TABLE Rooms(
+	roomID INT IDENTITY(1,1) PRIMARY KEY,
+	roomName VARCHAR(25),
+	tavernID INT FOREIGN KEY REFERENCES Taverns(tavernID),
+	roomStatusID INT FOREIGN KEY REFERENCES RoomStatus(roomStatusID)
+);
+
+
+
+DROP TABLE IF EXISTS RoomSales;
+CREATE TABLE RoomSales(
+	roomSaleID INT IDENTITY(1,1) PRIMARY KEY,
+	serviceID INT FOREIGN KEY REFERENCES ServicesOffered(serviceID),
+	guestID INT FOREIGN KEY REFERENCES Guests(guestID),
+	price DECIMAL(18,2),
+	roomSaleDate DATE,
+	amount INT,
+	tavernID INT FOREIGN KEY REFERENCES Taverns(tavernID)
+);
+
+
+
+DROP TABLE IF EXISTS RoomStays;
+CREATE TABLE RoomStays(
+	roomStayID INT IDENTITY(1,1) PRIMARY KEY,
+	roomRate DECIMAL(18,2),
+	roomSaleID INT FOREIGN KEY REFERENCES RoomSales(roomSaleID),
+	guestID INT FOREIGN KEY REFERENCES Guests(guestID),
+	roomID INT FOREIGN KEY REFERENCES Rooms(roomID),
+	stayDate DATE
+); 
+
+
+
+	-- Write a query that returns guests w/a birthday before 2000 --
+SELECT guestID
+FROM Guests
+WHERE guestBirthday < 2000;
+	-- Write a query to return rooms that cost more than 100 gold a night --
+SELECT roomID
+FROM Rooms
+WHERE roomRate > 100;
+	-- Write a query that returns UNIQUE guest names --
+SELECT DISTINCT guestName
+FROM Guests;
+	-- Write a query that retuns all guests ordered by name (ascending), use ASC or DESC after your ORDER BY [col] --
+SELECT * FROM Guests
+ORDER BY guestName ASC;
+	-- Write a query that returns the top 10 highest price sales --
+SELECT TOP 10 * FROM
+	(
+		SELECT * FROM RoomSales
+		ORDER BY price DESC
+	);
+	-- Write a query to return all the values stored in all Lookup Tables --
+	-- NOT VERY CONFIDENT I GOT THIS ONE --
+ SELECT * FROM Roles
+ UNION ALL
+ SELECT * FROM Locations
+ UNION ALL
+ SELECT * FROM ServicesOffered
+ UNION ALL
+ SELECT * FROM ServiceStatus
+ UNION ALL
+ SELECT * FROM SupplyUnits
+ UNION ALL
+ SELECT * FROM GuestClasses
+ UNION ALL
+ SELECT * FROM GuestStats
+ UNION ALL
+ SELECT * FROM RoomStatus;
+	-- Write a query that returns Guest Classes w/Levels and Generate a new column w/a label for their level grouping--
+SELECT * FROM GuestClasses a
+INNER JOIN GuestLevels b ON a.guestClassID = b.guestLevelID; -- Not sure how to generate new column in select query, how would I go about this? --
