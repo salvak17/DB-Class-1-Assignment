@@ -447,4 +447,7 @@ SELECT TOP 10 * FROM
  SELECT * FROM RoomStatus;
 	-- Write a query that returns Guest Classes w/Levels and Generate a new column w/a label for their level grouping--
 SELECT * FROM GuestClasses a
-INNER JOIN GuestLevels b ON a.guestClassID = b.guestLevelID; -- Not sure how to generate new column in select query, how would I go about this? --
+INNER JOIN GuestLevels b ON a.guestClassID = b.guestLevelID; 
+-- Not sure how to generate new column in select query, how would I go about this? --
+-- I was thinking when I figured out how to add a column I would use the WHEN statement and write:
+--WHEN GuestLevels.guestLevel BETWEEN 1 AND 10 THEN levelGrouping = 'level 1-10' (and so forth?) --
