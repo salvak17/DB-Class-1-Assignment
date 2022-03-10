@@ -120,7 +120,7 @@ CREATE TABLE ServicesOffered(
 DROP TABLE IF EXISTS TavernServices;
 DROP TABLE IF EXISTS ServiceSales;
 CREATE TABLE ServiceSales(
-	servicesSalesID INT IDENTITY(1200,1) PRIMARY KEY,
+	serviceSalesID INT IDENTITY(1200,1) PRIMARY KEY,
 	serviceID INT FOREIGN KEY REFERENCES ServicesOffered(serviceID),
 	datePurchased DATE,
 	quantity INT,
@@ -448,6 +448,119 @@ SELECT TOP 10 * FROM
 	-- Write a query that returns Guest Classes w/Levels and Generate a new column w/a label for their level grouping--
 SELECT * FROM GuestClasses a
 INNER JOIN GuestLevels b ON a.guestClassID = b.guestLevelID; 
--- Not sure how to generate new column in select query, how would I go about this? --
--- I was thinking when I figured out how to add a column I would use the WHEN statement and write:
---WHEN GuestLevels.guestLevel BETWEEN 1 AND 10 THEN levelGrouping = 'level 1-10' (and so forth?) --
+	-- Not sure how to generate new column in select query, how would I go about this? --
+	-- I was thinking when I figured out how to add a column I would use the WHEN statement and write:
+	--WHEN GuestLevels.guestLevel BETWEEN 1 AND 10 THEN levelGrouping = 'level 1-10' (and so forth?) --
+
+
+
+-- Class 4 Labs --
+	-- First Lab --
+SELECT Guests.*, GuestLevels.guestLevel, GuestClasses.guestClassName as ClassName 
+FROM Guests 
+JOIN GuestLevels ON Guests.guestID = GuestLevels.guestLevelID
+JOIN GuestClasses ON GuestLevels.guestClassID = GuestClasses.guestClassID;
+
+
+	--- Second Lab --
+SELECT CONCAT(
+	'Welcome, ',u.userName,'. Your tavern ',t.tavernName,' at ',l.locationName,' is doing well. ',
+	'The last thing we sold was ',s.supplyName,' for $',ss.price,'.',
+	CASE
+		WHEN i.quantity < 10 OR i.quantity IS NULL THEN
+			' Better order more!'
+		ELSE
+			''
+	END
+	) as Q
+FROM Taverns t
+JOIN Users u ON t.ownerID = u.userID
+JOIN Locations l ON t.locationID = l.locationID
+JOIN (
+	SELECT max(supplySalesID) as maxID, tavernID FROM SupplySales ss GROUP BY tavernID
+	) as sst ON sst.tavernID = t.tavernID
+JOIN SupplySales ss ON sst.maxID = ss.supplySalesID AND ss.tavernID = sst.tavernID
+JOIN Supplies s ON s.supplyID = ss.supplyID
+LEFT JOIN Inventory i ON i.tavernID = t.tavernID;
+
+
+
+-- Class 4 Assignment
+-- Query to return users who have admin roles --
+SELECT Users.userID, Users.userName, UserRoles.roleID, Roles.roleName
+FROM Users
+JOIN UserRoles ON Users.userID = UserRoles.userID
+JOIN Roles ON UserRoles.roleID = Roles.roleID AND Roles.roleName = 'admin';
+
+
+
+-- Query to return users who have admin roles and info about their taverns --
+SELECT Users.userID, Users.userName, UserRoles.roleID, Roles.roleName, Taverns.*
+FROM Users
+JOIN UserRoles ON Users.userID = UserRoles.userID
+JOIN Roles ON UserRoles.roleID = Roles.roleID AND Roles.roleName = 'admin' -- if this isn't the best practice, maybe a where clause? --
+JOIN Taverns ON Users.userID = Taverns.ownerID;
+
+
+
+-- Query that returns all guests ordered by name (asc) and their classes and corresponding levels --
+SELECT Guests.guestID, Guests.guestName, GuestClasses.guestClassName, GuestLevels.guestLevel
+FROM Guests
+JOIN GuestLevels ON Guests.guestID = GuestLevels.guestID
+JOIN GuestClasses ON GuestLevels.GuestlassID = GuestClasses.guestClassID
+ORDER BY Guests.guestName ASC;
+
+
+
+-- Query that returns the top 10 sales in terms of sales price and what the services were --
+SELECT CONCAT (
+	'Service Sale ID: ',srs.serviceSalesID,'. Service(s) provided: ',ServicesOffered.serviceName
+	)
+FROM ServicesOffered
+JOIN (SELECT TOP 10 FROM 
+		(
+			SELECT ServiceSales.serviceSalesID FROM ServiceSales
+			ORDER BY price DESC
+		) as ss1 ON ss1.serviceID = Services.serviceID
+	)
+JOIN ServiceSales srs ON ss1.serviceSalesID = srs.serviceSalesID;
+
+
+
+-- Query that returns guests w/2+ classes --
+SELECT * FROM (
+	SELECT count(GuestClasses.guestClassID) as ClassCount, Guests.guestID, Guests.guestName
+	FROM GuestClasses
+	GROUP BY Guests.guestID
+) as a
+JOIN Guests ON GuestClasses.guestClassID = GuestLevels.guestClassID -- not sure how to go about these joins?
+JOIN GuestLevels ON Guests.guestID = GuestLevels.guestID
+WHERE ClassCount >= 2;
+
+
+
+-- Query that returns guests w/2+ classes w/levels higher than 5 --
+SELECT * FROM (
+	SELECT count(GuestClasses.guestClassID) as ClassCount, Guests.guestID, Guests.guestName
+	FROM GuestClasses
+	GROUP BY Guests.guestID
+) as a
+JOIN Guests ON GuestClasses.guestClassID = GuestLevels.guestClassID -- not sure how to go about these joins?
+JOIN GuestLevels ON Guests.guestID = GuestLevels.guestID
+WHERE ClassCount >= 2 AND GuestLevels.guestLevel > 5;
+
+
+
+-- Query that returns guests w/ONLY their highest level class --
+SELECT max(GuestLevels.guestLevel) as maxLevel, Guests.guestName 
+FROM GuestLevels 
+GROUP BY guestID
+JOIN Guests ON GuestLevels.guestID = Guests.guestID;
+
+-- Query that returns guests that stay within a date range --
+-- NOT 100% sure how I'd go about this problem but I'd try: --
+SELECT g.guestID, g.guestName, RoomSales.tavernID, RoomStays.stayDate
+FROM Guests g
+JOIN RoomSales ON g.guestID = RoomSales.guestID
+JOIN RoomStays ON RoomSales.roomSaleID = RoomStays.roomSaleID
+WHERE RoomStays.stayDate BETWEEN '1800-10-01' AND '1800-10-03'; -- or any date
