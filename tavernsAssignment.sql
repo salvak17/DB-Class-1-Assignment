@@ -486,7 +486,7 @@ LEFT JOIN Inventory i ON i.tavernID = t.tavernID;
 
 
 -- Class 4 Assignment
--- Query to return users who have admin roles --
+	-- Query to return users who have admin roles --
 SELECT Users.userID, Users.userName, UserRoles.roleID, Roles.roleName
 FROM Users
 JOIN UserRoles ON Users.userID = UserRoles.userID
@@ -494,7 +494,7 @@ JOIN Roles ON UserRoles.roleID = Roles.roleID AND Roles.roleName = 'admin';
 
 
 
--- Query to return users who have admin roles and info about their taverns --
+	-- Query to return users who have admin roles and info about their taverns --
 SELECT Users.userID, Users.userName, UserRoles.roleID, Roles.roleName, Taverns.*
 FROM Users
 JOIN UserRoles ON Users.userID = UserRoles.userID
@@ -503,7 +503,7 @@ JOIN Taverns ON Users.userID = Taverns.ownerID;
 
 
 
--- Query that returns all guests ordered by name (asc) and their classes and corresponding levels --
+	-- Query that returns all guests ordered by name (asc) and their classes and corresponding levels --
 SELECT Guests.guestID, Guests.guestName, GuestClasses.guestClassName, GuestLevels.guestLevel
 FROM Guests
 JOIN GuestLevels ON Guests.guestID = GuestLevels.guestID
@@ -512,7 +512,7 @@ ORDER BY Guests.guestName ASC;
 
 
 
--- Query that returns the top 10 sales in terms of sales price and what the services were --
+	-- Query that returns the top 10 sales in terms of sales price and what the services were --
 SELECT CONCAT (
 	'Service Sale ID: ',srs.serviceSalesID,'. Service(s) provided: ',ServicesOffered.serviceName
 	)
@@ -527,7 +527,7 @@ JOIN ServiceSales srs ON ss1.serviceSalesID = srs.serviceSalesID;
 
 
 
--- Query that returns guests w/2+ classes --
+	-- Query that returns guests w/2+ classes --
 SELECT * FROM (
 	SELECT count(GuestClasses.guestClassID) as ClassCount, Guests.guestID, Guests.guestName
 	FROM GuestClasses
@@ -539,7 +539,7 @@ WHERE ClassCount >= 2;
 
 
 
--- Query that returns guests w/2+ classes w/levels higher than 5 --
+	-- Query that returns guests w/2+ classes w/levels higher than 5 --
 SELECT * FROM (
 	SELECT count(GuestClasses.guestClassID) as ClassCount, Guests.guestID, Guests.guestName
 	FROM GuestClasses
@@ -551,14 +551,14 @@ WHERE ClassCount >= 2 AND GuestLevels.guestLevel > 5;
 
 
 
--- Query that returns guests w/ONLY their highest level class --
+	-- Query that returns guests w/ONLY their highest level class --
 SELECT max(GuestLevels.guestLevel) as maxLevel, Guests.guestName 
 FROM GuestLevels 
 GROUP BY guestID
 JOIN Guests ON GuestLevels.guestID = Guests.guestID;
 
--- Query that returns guests that stay within a date range --
--- NOT 100% sure how I'd go about this problem but I'd try: --
+	-- Query that returns guests that stay within a date range --
+	-- NOT 100% sure how I'd go about this problem but I'd try: --
 SELECT g.guestID, g.guestName, RoomSales.tavernID, RoomStays.stayDate
 FROM Guests g
 JOIN RoomSales ON g.guestID = RoomSales.guestID
