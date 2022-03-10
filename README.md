@@ -31,5 +31,15 @@ SQL DB Class 3 Tavern Assignment
 6. Wrote a query that returns the top 10 highest price sales.
 7. Wrote a query to return all the values stored in all Lookup Tables.
 8. Wrote a query that returns Guest Classes with Guest Levels, and Generates a new column with a label for their level grouping.
+<br><br><br>
+SQL DB Class 4 Tavern Assignment
+1. Wrote a query to return users who have admin roles.
+2. Wrote a query to return users who have admin roles and info about their taverns.
+3. Wrote a query that returns all guests ordered by name (ascending) and their classes and corresponding levels.
+4. Wrote a query that returns the top 10 sales in terms of sales price and what the services were.
+5. Wrote a query that returns guests with 2 or more classes.
+6. Wrote a query that returns guests with 2 or more classes with levels higher than 5
+7. Wrote a query that returns guests with ONLY their highest level class.
+8. Wrote a query that returns guests that stay within a date range.
 <br>
 *FYI: jpg diagram was not yet updated for SQL DB Class 2 Tavern Assignment as it was drawn by hand but will be made digital*
